@@ -1,7 +1,7 @@
 package enums;
 
 /**
- * Created by Sinerak on 25/06/2017.
+ * Created by Kelvin McClean on 25/06/2017.
  */
 public enum FileType {
 

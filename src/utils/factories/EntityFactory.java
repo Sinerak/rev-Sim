@@ -3,6 +3,7 @@ package utils.factories;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Entity;
@@ -23,7 +24,7 @@ public class EntityFactory {
 		return map;
 	}
 
-	public static Entity createEntity(ModelPath model, TexturePath texture, Vector3f pos) {
+	public static Entity createEntity(ModelPath model, TexturePath texture, Vector2f pos) {
 		TexturedModel tModel;
 		if (map.containsKey(model)) {
 			if (map.get(model).containsKey(texture)) {
@@ -50,7 +51,7 @@ public class EntityFactory {
 
 	}
 
-	public static Entity createEntity(ModelPath model, TexturePath texture, Vector3f pos, Vector3f rotation,
+	public static Entity createEntity(ModelPath model, TexturePath texture, Vector2f pos, Vector3f rotation,
 			float scale, int textureIndex) {
 		TexturedModel tModel;
 		if (map.containsKey(model)) {

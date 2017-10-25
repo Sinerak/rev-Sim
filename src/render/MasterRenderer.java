@@ -1,8 +1,10 @@
 package render;
 
+import entities.BgSquare;
 import entities.Entity;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
+import shaders.BackgroundShader;
 import shaders.StaticShader;
 import utils.MatrixCreator;
 import utils.WorldFactors;
@@ -13,28 +15,30 @@ import java.util.List;
 import java.util.Map;
 
 public class MasterRenderer {
-	
+
 	private StaticShader entityShader = new StaticShader();
+	private BackgroundShader backgroundShader = new BackgroundShader();
 	private EntityRenderer entityRenderer;
-	
+	private BackgroundRenderer backgroundRenderer;
+
 
 	private Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
+	private Map<TexturedModel,List<BgSquare>> bgEntities = new HashMap<>();
 
 	public MasterRenderer(){
 		
 		enableBackfaceCulling();
 		
-		MatrixCreator.createProjectionMatrix();
-		
+
 		entityRenderer = new EntityRenderer(entityShader);
+		backgroundRenderer = new BackgroundRenderer(backgroundShader);
 	}
 	
 	
 	public void render(){
 		prepare();
-		entityShader.start();
-		entityRenderer.render(entities);
-		entityShader.stop();
+		backgroundRenderer.run(bgEntities);
+		entityRenderer.run(entities);
 		entities.clear();
 }
 	
@@ -55,6 +59,21 @@ public class MasterRenderer {
 			newBatch.add(entity);
 			entities.put(entityModel, newBatch);
 		}
+	}
+
+
+	public void processBg(BgSquare square) {
+		TexturedModel entityModel = square.getEntity().getModel();
+		List<BgSquare> batch = bgEntities.get(entityModel);
+		if (batch != null){
+			batch.add(square);
+		}
+		else{
+			List<BgSquare> newBatch = new ArrayList<>();
+			newBatch.add(square);
+			bgEntities.put(entityModel,newBatch);
+		}
+
 	}
 	
 	public static void enableBackfaceCulling(){
@@ -79,5 +98,4 @@ public class MasterRenderer {
 	}
 
 
-	
 }

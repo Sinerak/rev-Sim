@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.Map;
 
 public abstract class ShaderProgram {
 
@@ -37,9 +38,8 @@ public abstract class ShaderProgram {
 	}
 
 	protected abstract void getAllUniformLocations();
-	
-	
-	
+	public abstract void loadTransformationMatrix(Matrix4f transformationMatrix);
+
 	protected int getUniformLocation(String uniformName){
 		return GL20.glGetUniformLocation(programID, uniformName);
 	}
@@ -86,7 +86,11 @@ public abstract class ShaderProgram {
 	protected void load2DVector(int location, float x, float y){
 		GL20.glUniform2f(location, x, y);
 	}
-	
+
+	protected void load3DVector(int location, Vector3f vector){
+		GL20.glUniform3f(location, vector.x,vector.y, vector.z);
+	}
+
 	protected void loadBoolean(int location, boolean value){
 		float toLoad= value ? 1 : 0;
 		GL20.glUniform1f(location, toLoad);

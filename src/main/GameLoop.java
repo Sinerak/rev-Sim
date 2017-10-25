@@ -1,11 +1,13 @@
 package main;
 
 import entities.BgSquare;
+import entities.P_Entity;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+import org.lwjgl.util.vector.Vector2f;
 import render.DisplayManager;
 import render.MasterRenderer;
 import utils.MatrixCreator;
@@ -19,7 +21,7 @@ public class GameLoop {
 
     private static MasterRenderer masterRenderer;
     private static ArrayList<BgSquare> squares;
-
+    private static P_Entity player;
 
     public static void main(String[] args) {
         setup();
@@ -36,14 +38,15 @@ public class GameLoop {
         GL11.glClearColor(WorldFactors.SKY_COLOUR_R, WorldFactors.SKY_COLOUR_G, WorldFactors.SKY_COLOUR_B, 1.0f);
         masterRenderer = new MasterRenderer();
         squares = BackgroundLoader.loadMap("test");
+        player = new P_Entity(new Vector2f(0,0));
     }
 
     private static void update() {
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        //GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         for (BgSquare square : squares){
-            masterRenderer.processEntity(square.getEntity());
+            masterRenderer.processBg(square);
         }
         pollKeyboard();
         pollMouse();
@@ -86,7 +89,6 @@ public class GameLoop {
             catch (Exception e){
                 e.printStackTrace();
             }
-            MatrixCreator.createProjectionMatrix();
             masterRenderer.resize();
         }
     }
