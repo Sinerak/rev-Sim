@@ -17,14 +17,13 @@ import utils.fileLoader.OBJFileLoader;
 
 public class EntityFactory {
 
-	private static Map<ModelPath, Map<TexturePath, TexturedModel>> map = new HashMap<ModelPath, Map<TexturePath, TexturedModel>>();
+	private static Map<ModelPath, Map<TexturePath, TexturedModel>> map = new HashMap<>();
 
 	public static Map<ModelPath, Map<TexturePath, TexturedModel>> getMap() {
 		return map;
 	}
 
-	public static Entity createEntity(ModelPath model, TexturePath texture, Vector3f pos, Vector3f rotation,
-			float scale) {
+	public static Entity createEntity(ModelPath model, TexturePath texture, Vector3f pos) {
 		TexturedModel tModel;
 		if (map.containsKey(model)) {
 			if (map.get(model).containsKey(texture)) {
@@ -42,12 +41,12 @@ public class EntityFactory {
 			tModel = new TexturedModel(raw, new ModelTexture(TextureFactory.createTexture(texture)));
 			tModel.getTexture().setHasTransparency(texture.getHasTransparency());
 			tModel.getTexture().setUseFakeLighting(texture.getFakeLighting());
-			map.put(model, new HashMap<TexturePath, TexturedModel>());
+			map.put(model, new HashMap<>());
 			map.get(model).put(texture, tModel);
 
 		}
 
-		return new Entity(tModel, pos, rotation.x, rotation.y, rotation.z, scale);
+		return new Entity(tModel, pos);
 
 	}
 
@@ -70,7 +69,7 @@ public class EntityFactory {
 			tModel = new TexturedModel(raw, new ModelTexture(TextureFactory.createTexture(texture)));
 			tModel.getTexture().setHasTransparency(texture.getHasTransparency());
 			tModel.getTexture().setUseFakeLighting(texture.getFakeLighting());
-			map.put(model, new HashMap<TexturePath, TexturedModel>());
+			map.put(model, new HashMap<>());
 			map.get(model).put(texture, tModel);
 
 		}

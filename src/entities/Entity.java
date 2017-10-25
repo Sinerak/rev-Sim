@@ -15,15 +15,11 @@ public class Entity {
 	
 	private int textureIndex = 0;
 
-	public Entity(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
-			float scale) {
+	public Entity(TexturedModel model, Vector3f position) {
 		
 		this.model = model;
 		this.position = position;
-		this.rotationX = rotationX;
-		this.rotationY = rotationY;
-		this.rotationZ = rotationZ;
-		this.scale = scale;
+
 	}
 	
 	public Entity(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,

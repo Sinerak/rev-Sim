@@ -1,30 +1,25 @@
 package main;
 
-import entities.Camera;
-import entities.Entity;
-import entities.GameMap;
-import enums.ModelPath;
-import enums.TexturePath;
+import entities.BgSquare;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import org.lwjgl.util.vector.Vector3f;
 import render.DisplayManager;
 import render.MasterRenderer;
 import utils.MatrixCreator;
 import utils.WorldFactors;
-import utils.factories.EntityFactory;
+import utils.fileLoader.BackgroundLoader;
 import utils.fileLoader.Loader;
 
-import java.security.Key;
+import java.util.ArrayList;
 
 public class GameLoop {
 
-    private static Camera camera;
     private static MasterRenderer masterRenderer;
-    private static GameMap gameMap;
+    private static ArrayList<BgSquare> squares;
+
 
     public static void main(String[] args) {
         setup();
@@ -40,22 +35,23 @@ public class GameLoop {
         DisplayManager.createDisplay();
         GL11.glClearColor(WorldFactors.SKY_COLOUR_R, WorldFactors.SKY_COLOUR_G, WorldFactors.SKY_COLOUR_B, 1.0f);
         masterRenderer = new MasterRenderer();
-        gameMap = new GameMap();
-        camera = new Camera();
+        squares = BackgroundLoader.loadMap("test");
     }
 
     private static void update() {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        camera.update();
-        masterRenderer.processEntity(gameMap.getEntity());
+
+        for (BgSquare square : squares){
+            masterRenderer.processEntity(square.getEntity());
+        }
         pollKeyboard();
         pollMouse();
         pollEvents();
     }
 
     private static void draw() {
-        masterRenderer.render(camera);
+        masterRenderer.render();
         DisplayManager.updateDisplay();
 
     }

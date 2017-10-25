@@ -1,8 +1,6 @@
 package render;
 
-import entities.Camera;
 import entities.Entity;
-import entities.Light;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
 import shaders.StaticShader;
@@ -32,15 +30,13 @@ public class MasterRenderer {
 	}
 	
 	
-	public void render(Camera camera){
+	public void render(){
 		prepare();
 		entityShader.start();
-		entityShader.loadViewMatrix(camera);
 		entityRenderer.render(entities);
-		//System.out.println(camera.getPosition().getX() +": "+camera.getPosition().getY()+ ": "+camera.getPosition().getZ());
 		entityShader.stop();
 		entities.clear();
-	}
+}
 	
 	public void prepare() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

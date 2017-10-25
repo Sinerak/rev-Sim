@@ -19,27 +19,28 @@ public enum TexturePath {
 	BLEND_MAP("blendMap"),
 	PLAYER("playerTexture"),
 	HEIGHTMAP("heightmap"),
-	HEALTH("health");
+	HEALTH("health"),
+	WHITE("white");
 	
 	private final String path;
 	private boolean hasTransparency;
 	private boolean useFakeLighting;
 	private FileType fileType = FileType.PNG;
 	
-	private TexturePath(String path){
+	TexturePath(String path){
 		this.path = path;
 		this.hasTransparency = false;
 		this.useFakeLighting = false;
 	}
 
-	private TexturePath(String path, FileType fileType){
+	TexturePath(String path, FileType fileType){
 		this.path = path;
 		this.fileType = fileType;
 		this.hasTransparency = false;
 		this.useFakeLighting = false;
 	}
 
-	private TexturePath(String path, boolean transparentAndFakeLight){
+	TexturePath(String path, boolean transparentAndFakeLight){
 		this.path = path;
 		this.hasTransparency = transparentAndFakeLight;
 		this.useFakeLighting = transparentAndFakeLight;
@@ -47,7 +48,7 @@ public enum TexturePath {
 
 
 
-	private TexturePath(String path, boolean hasTransparency, boolean useFakeLighting){
+	TexturePath(String path, boolean hasTransparency, boolean useFakeLighting){
 		this.path = path;
 		this.hasTransparency = hasTransparency;
 		this.useFakeLighting = useFakeLighting;
