@@ -1,28 +1,36 @@
 package entities;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import models.TexturedModel;
 
-public class Entity {
+import java.io.Serializable;
+
+public class Entity implements Serializable{
 
 	private TexturedModel model;
-	private Vector3f position;
+	private Vector2f position;
+	private Vector2f scale;
+
 	private float rotationX;
 	private float rotationY;
 	private float rotationZ;
-	private float scale;
-	
+
 	private int textureIndex = 0;
 
-	public Entity(TexturedModel model, Vector3f position) {
+	public Entity(TexturedModel model, Vector2f position) {
 		
 		this.model = model;
 		this.position = position;
+		this.rotationX = 0;
+		this.rotationY = 0;
+		this.rotationZ = 0;
+		scale = new Vector2f(1,1);
 
 	}
 	
-	public Entity(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
+	public Entity(TexturedModel model, Vector2f position, float rotationX, float rotationY, float rotationZ,
 			float scale, int index) {
 		
 		this.model = model;
@@ -30,7 +38,7 @@ public class Entity {
 		this.rotationX = rotationX;
 		this.rotationY = rotationY;
 		this.rotationZ = rotationZ;
-		this.scale = scale;
+		this.scale = new Vector2f(scale,scale);
 		this.textureIndex = index;
 	}
 	
@@ -46,10 +54,9 @@ public class Entity {
 	}
 	
 
-	public void increasePosition(float dx, float dy, float dz){
+	public void increasePosition(float dx, float dy){
 		this.position.x += dx;
 		this.position.y += dy;
-		this.position.z += dz;
 	}
 	
 	public void increaseRotation(float dx, float dy,float dz){
@@ -66,11 +73,11 @@ public class Entity {
 		this.model = model;
 	}
 
-	public Vector3f getPosition() {
+	public Vector2f getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vector3f position) {
+	public void setPosition(Vector2f position) {
 		this.position = position;
 	}
 
@@ -98,11 +105,11 @@ public class Entity {
 		this.rotationZ = rotationZ;
 	}
 
-	public float getScale() {
+	public Vector2f getScale() {
 		return scale;
 	}
 
-	public void setScale(float scale) {
+	public void setScale(Vector2f scale) {
 		this.scale = scale;
 	}
 

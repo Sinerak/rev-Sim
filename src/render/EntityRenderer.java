@@ -1,5 +1,6 @@
 package render;
 
+import com.sun.prism.ps.Shader;
 import entities.Entity;
 import models.TexturedModel;
 import org.lwjgl.opengl.GL11;
@@ -7,6 +8,8 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
+import shaders.ShaderProgram;
 import shaders.StaticShader;
 import textures.ModelTexture;
 import utils.MatrixCreator;
@@ -22,13 +25,16 @@ public class EntityRenderer {
 	public EntityRenderer(StaticShader shader){
 		this.shader = shader;
 		this.shader.start();
-		this.shader.loadProjectionMatrix(MatrixCreator.getProjectionMatrix());
 		this.shader.stop();
 	}
 	
 	
 
-
+	public void run(Map<TexturedModel, List<Entity>> map){
+		shader.start();
+		render(map);
+		shader.stop();
+	}
 	public void render(Map<TexturedModel,List<Entity>> map){
 		for (TexturedModel model : map.keySet()){
 			prepareTexturedModel(model);
@@ -51,7 +57,6 @@ public class EntityRenderer {
 		GL20.glEnableVertexAttribArray(2);
 		
 		ModelTexture texture = model.getTexture();
-		shader.loadNumberOfRows(texture.getNumberOfRows());
 		if (texture.hasTransparency()){
 			MasterRenderer.disableBackfaceCulling();
 		}
@@ -69,16 +74,14 @@ public class EntityRenderer {
 	}
 	
 	private void prepareInstance(Entity entity){
-		Matrix4f transformationMatrix = MatrixCreator.createTransformationMatrix(entity.getPosition(), entity.getRotationX(),
-				entity.getRotationY(), entity.getRotationZ(), entity.getScale());
-		
-		this.shader.loadTransformationMatrix(transformationMatrix);
-		this.shader.loadOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
+		Matrix4f transformationMatrix = MatrixCreator.createTransformationMatrix(entity.getPosition(), entity.getScale());
+
+
+			this.shader.loadTransformationMatrix(transformationMatrix);
 	}
 
 	public void resize(){
 		shader.start();
-		shader.loadProjectionMatrix(MatrixCreator.getProjectionMatrix());
 		shader.stop();
 	}
 	

@@ -1,6 +1,6 @@
 #version 400 core
 
-in vec3 position;
+in vec2 position;
 in vec2 textureCoords;
 in vec3 normal;
 
@@ -15,11 +15,10 @@ uniform vec2 offset;
 
 void main(void)
 {
-	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
-	vec4 positionRelativeToCam = viewMatrix * worldPosition;
-	
-	gl_Position = projectionMatrix * positionRelativeToCam;
-	pass_textureCoords = (textureCoords / numberOfRows) + offset;
+	vec4 worldPosition = transformationMatrix * vec4(position,0,1.0);
+
+	gl_Position =  worldPosition;
+	pass_textureCoords = textureCoords;
 	
 
 	
