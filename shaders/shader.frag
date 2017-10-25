@@ -14,6 +14,7 @@ void main(void)
     {
         vec4 colour;
         vec4 ownerColour;
+        vec4 testVariable;
     };
 
 
